@@ -1,3 +1,7 @@
+body {
+  background-image: url(../img/Table_Background.jpg);
+}
+
 .card {
   float: left;
   border: solid 1px black;
@@ -5,10 +9,12 @@
   border-radius: 5px;
   height: 140px;
   margin-right: 20px;
+  background-size: 100%;
 }
 
 .covered {
-  background-image: url(../img/card-back.png);
+  background-image: url(../img/card-back.png) !important;
+  background-size: 100%;
 }
 
 .hand {

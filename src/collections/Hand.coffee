@@ -19,7 +19,7 @@ class window.Hand extends Backbone.Collection
     else
       @add(@deck.pop())
       if @minScore() > 21
-        console.log('you lose')
+        alert("YOU LOSE!")
     @last()
 
   stand: ->
