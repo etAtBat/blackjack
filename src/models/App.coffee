@@ -8,4 +8,17 @@ class window.App extends Backbone.Model
     that = @
     @get('playerHand').on('stand', (data) ->
       that.get('dealerHand').first().flip()
-      that.get('dealerHand').hit(data))
+      that.get('dealerHand').hit(data)
+      #new game
+      #remove cards from dealer and player
+      if(that.get('deck').length < 7)
+        console.log(that.get('deck').models)
+        test = new Deck()
+        that.get('deck').reset(test.models);
+        console.log(that.get('deck').models)
+      that.get('playerHand').reset([that.get('deck').pop(), that.get('deck').pop()])
+      that.get('dealerHand').reset([that.get('deck').pop().flip(), that.get('deck').pop()])
+      #re-creates playerhand and dealerhand by invoking deck.dealplayer
+      #score values reset
+      #re-deal new hands
+    )
