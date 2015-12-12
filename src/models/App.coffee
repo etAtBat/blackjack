@@ -5,4 +5,7 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
-
+    that = @
+    @get('playerHand').on('stand', (data) ->
+      that.get('dealerHand').first().flip()
+      that.get('dealerHand').hit(data))

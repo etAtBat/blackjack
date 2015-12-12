@@ -3,22 +3,32 @@ class window.Hand extends Backbone.Collection
 
   initialize: (array, @deck, @isDealer) ->
 
-  hit: ->
-    @add(@deck.pop())
-    #if(@isDealer)
-    #  if(@scores()[0] > 16)
-        #stop
-    if(@scores()[0] > 21)
-      console.log('you lose')
+  hit: (data) ->
+    if @isDealer
+      if @maxScore() >= 17 and @maxScore() <= 21
+        if data > @maxScore() or @maxScore() > 21 then alert("YOU WIN!")else
+          if data == @maxScore() then alert("TIE!") else alert("YOU LOSE!")
+      else if @minScore() >= 17
+        if data > @minScore() or @minScore() > 21 then alert("YOU WIN!") else
+          if data == @minScore() then alert("TIE!") else alert("YOU LOSE!")
+      else
+        @add(@deck.pop())
+        @hit(data)
+
+
+    else
+      @add(@deck.pop())
+      if @minScore() > 21
+        console.log('you lose')
     @last()
 
   stand: ->
-    if(@scores()[1] > 21)
-      score = @scores()[0]
+    if @maxScore() > 21
+      score = @minScore()
     else
-      score = @scores()[1]#choosing between hands
-    #console.log(@deck)
-    score
+      score = @maxScore()#choosing between hands
+
+    @trigger('stand', score)
 
 
   hasAce: -> @reduce (memo, card) ->
@@ -28,6 +38,9 @@ class window.Hand extends Backbone.Collection
   minScore: -> @reduce (score, card) ->
     score + if card.get 'revealed' then card.get 'value' else 0
   , 0
+
+  maxScore: ->
+    @minScore() + 10 * @hasAce()
 
   scores: ->
     # The scores are an array of potential scores.
